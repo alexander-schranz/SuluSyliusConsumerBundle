@@ -9,9 +9,11 @@ phpunit.xml
 
 # php-cs
 .php_cs.cache
+.php-cs-fixer.cache
 
 # tests
 .env
+.env.*local
 Tests/Application/var
 
 # npm

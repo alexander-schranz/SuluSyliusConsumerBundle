@@ -52,12 +52,12 @@ class ImageMediaAdapterTest extends KernelTestCase
         self::purgeDatabase();
 
         /** @var SyliusImageDownloader $syliusImageDownloader */
-        $syliusImageDownloader = self::$container->get(SyliusImageDownloaderInterface::class);
+        $syliusImageDownloader = static::getContainer()->get(SyliusImageDownloaderInterface::class);
         $this->syliusImageDownloaderMock = $this->prophesize(SyliusImageDownloaderInterface::class);
         $syliusImageDownloader->setMock($this->syliusImageDownloaderMock->reveal());
 
         /** @var Storage $storage */
-        $storage = self::$container->get('sulu_media.storage');
+        $storage = static::getContainer()->get('sulu_media.storage');
         $this->storageMock = $this->prophesize(StorageInterface::class);
         $storage->setMock($this->storageMock->reveal());
     }
@@ -113,7 +113,7 @@ class ImageMediaAdapterTest extends KernelTestCase
      */
     private function setId(object $object, $id): void
     {
-        $metadata = self::getEntityManager()->getClassMetaData(get_class($object));
+        $metadata = self::getEntityManager()->getClassMetaData(\get_class($object));
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
         $metadata->setIdGenerator(new AssignedGenerator());
 

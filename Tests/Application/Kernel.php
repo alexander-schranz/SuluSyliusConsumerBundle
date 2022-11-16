@@ -18,7 +18,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 
 class Kernel extends SuluTestKernel
 {
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         $bundles = [
             new \Sulu\Bundle\SyliusConsumerBundle\SuluSyliusConsumerBundle(),
@@ -28,10 +28,10 @@ class Kernel extends SuluTestKernel
             $bundles[] = new \Symfony\Bundle\SecurityBundle\SecurityBundle();
         }
 
-        return array_merge($bundles, parent::registerBundles());
+        return \array_merge($bundles, parent::registerBundles());
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         parent::registerContainerConfiguration($loader);
 

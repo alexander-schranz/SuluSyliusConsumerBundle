@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sulu\Bundle\SyliusConsumerBundle\Common;
 
-use Ramsey\Uuid\Uuid;
 use Webmozart\Assert\Assert;
 
 class Payload
@@ -105,7 +104,7 @@ class Payload
         $value = $this->getValue($key, false);
 
         Assert::string($value);
-        static::assertUuid($value);
+        Assert::uuid($value);
 
         return $value;
     }
@@ -119,7 +118,7 @@ class Payload
         }
 
         Assert::string($value);
-        static::assertUuid($value);
+        Assert::uuid($value);
 
         return $value;
     }
@@ -226,15 +225,5 @@ class Payload
         Assert::isArray($value);
 
         return $value;
-    }
-
-    /**
-     * @throws \InvalidArgumentException when the given value is no uuid
-     */
-    private static function assertUuid(string $value): void
-    {
-        if (!Uuid::isValid($value)) {
-            throw new \InvalidArgumentException(\sprintf('Expected a uuid. Got: %s', $value));
-        }
     }
 }
