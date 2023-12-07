@@ -18,8 +18,8 @@ use Sulu\Bundle\MediaBundle\Entity\Collection;
 use Sulu\Bundle\MediaBundle\Entity\File;
 use Sulu\Bundle\MediaBundle\Entity\FileVersion;
 use Sulu\Bundle\MediaBundle\Entity\FileVersionMeta;
-use Sulu\Bundle\MediaBundle\Entity\Media;
 use Sulu\Bundle\MediaBundle\Entity\MediaInterface;
+use Sulu\Bundle\MediaBundle\Entity\MediaRepositoryInterface;
 use Sulu\Bundle\MediaBundle\Entity\MediaType;
 use Sulu\Bundle\MediaBundle\Media\Storage\StorageInterface;
 use Sulu\Bundle\SyliusConsumerBundle\Payload\ImagePayload;
@@ -62,6 +62,11 @@ class ImageMediaAdapter implements ImageAdapterInterface
      * @var SyliusImageDownloaderInterface
      */
     private $syliusImageDownloader;
+    
+    /**
+     * @var MediaRepositoryInterface
+     */
+    private $mediaRepository;
 
     public function __construct(
         ImageMediaBridgeRepositoryInterface $mediaBridgeRepository,
@@ -69,7 +74,8 @@ class ImageMediaAdapter implements ImageAdapterInterface
         StorageInterface $storage,
         SystemCollectionManagerInterface $systemCollectionManager,
         SyliusImageDownloaderInterface $syliusImageDownloader,
-        string $collectionKey
+        string $collectionKey,
+        MediaRepositoryInterface $mediaRepository
     ) {
         $this->mediaBridgeRepository = $mediaBridgeRepository;
         $this->entityManager = $entityManager;
@@ -77,6 +83,7 @@ class ImageMediaAdapter implements ImageAdapterInterface
         $this->systemCollectionManager = $systemCollectionManager;
         $this->collectionKey = $collectionKey;
         $this->syliusImageDownloader = $syliusImageDownloader;
+        $this->mediaRepository = $mediaRepository;
     }
 
     public function synchronize(ImagePayload $payload): void
@@ -103,7 +110,7 @@ class ImageMediaAdapter implements ImageAdapterInterface
     {
         $bridge = $this->mediaBridgeRepository->findById($payload->getId());
         if (!$bridge) {
-            $media = new Media();
+            $media = $this->mediaRepository->createNew();
             $bridge = $this->mediaBridgeRepository->create($payload->getId(), $media);
         }
 
