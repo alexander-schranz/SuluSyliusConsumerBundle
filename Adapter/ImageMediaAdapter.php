@@ -76,7 +76,7 @@ class ImageMediaAdapter implements ImageAdapterInterface
         SystemCollectionManagerInterface $systemCollectionManager,
         SyliusImageDownloaderInterface $syliusImageDownloader,
         string $collectionKey,
-        MediaRepositoryInterface $mediaRepository = null
+        ?MediaRepositoryInterface $mediaRepository = null
     ) {
         $this->mediaBridgeRepository = $mediaBridgeRepository;
         $this->entityManager = $entityManager;
